@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styles from './Card.module.scss'
 
-export default function Card({ name, price, img }) {
-	const alertCardAdd = () => {
-			alert('Товар добавлен')
+export default function Card({ id, name, price, img, addToCart }) {
+	const [added, setAdded] = useState(false)
+
+	const onClickButtonAdd = () => {
+		addToCart({id, name, price, img})
+		setAdded(!added)
 	}
 
 	return (
@@ -19,8 +22,8 @@ export default function Card({ name, price, img }) {
 					<span>Цена:</span>
 					<b>{price} руб.</b>
 				</div>
-				<button onClick={alertCardAdd} className={styles.button}>
-					<img width={11} height={11} src="img/plus.svg" alt="" />
+				<button onClick={onClickButtonAdd} className={styles.button}>
+					<img width={11} height={11} src={added ? '/img/btn-add.svg' : '/img/plus.svg'} alt="" />
 				</button>
 			</div>
 		</div>
