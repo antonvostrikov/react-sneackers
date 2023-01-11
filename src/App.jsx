@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 
 import axios from "axios";
 
-import Favorite from "./pages/Favorite";
-import Main from "./pages/Main"
+import Favorite from "./pages/Favorite/Favorite";
+import Main from "./pages/Main/Main"
 
 import Header from './components/Header/Header';
 import Drawer from "./components/Drawer/Drawer";

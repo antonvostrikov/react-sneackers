@@ -31,44 +31,6 @@
       "image": "/img/sneackers/3.jpg"
     }
   ],
-  "cart": [
-    {
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "img": "/img/sneackers/2.jpg",
-      "id": 1
-    },
-    {
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "img": "/img/sneackers/3.jpg",
-      "id": 2
-    }
-  ],
-  "favorite": [
-    {
-      "id": 4,
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "img": "/img/sneackers/4.jpg"
-    },
-    {
-      "id": 2,
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "img": "/img/sneackers/2.jpg"
-    },
-    {
-      "id": 1,
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "img": "/img/sneackers/1.jpg"
-    },
-    {
-      "id": 5,
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "img": "/img/sneackers/3.jpg"
-    }
-  ]
+  "cart": [],
+  "favorite": []
 }
