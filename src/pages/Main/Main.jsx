@@ -2,7 +2,19 @@ import React from "react";
 
 import Card from '../../components/Card/Card'
 
-export default function Main({ onAddToFavorite, database, searchCart, onAddToCart, onChangeInputSearch }) {
+export default function Main({ isLoading, onAddToFavorite, database, searchCart, onAddToCart, onChangeInputSearch }) {
+  const renderItems = () => {
+    const filteredItems = database.filter(card => card.name.toLowerCase().includes(searchCart.toLowerCase()))
+    return (isLoading ? [...Array(10)] : filteredItems).map((card, index) => (
+      <Card 
+        key={index}
+        onAddToFavorite={onAddToFavorite}
+        addToCart={(card) => onAddToCart(card)} 
+        loading={isLoading}
+        {...card}
+      />
+    )) 
+  }
   return (
 		<>
       <div className="content p-40">
@@ -15,19 +27,7 @@ export default function Main({ onAddToFavorite, database, searchCart, onAddToCar
         </div>
 
         <div className="d-flex flex-wrap">
-          { database
-            .filter(card => card.name.toLowerCase().includes(searchCart.toLowerCase()))
-            .map((card) => (
-              <Card 
-                onAddToFavorite={onAddToFavorite}
-                addToCart={(card) => onAddToCart(card)} 
-                name={card.name} 
-                price={card.price} 
-                img={card.image} 
-                id={card.id}
-              />
-            )) 
-          }
+          { renderItems() }
         </div>
       </div> 
 		</>	

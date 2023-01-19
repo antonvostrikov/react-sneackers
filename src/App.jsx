@@ -15,22 +15,35 @@ function App() {
   const [searchCart, setSearchCart] = useState('')
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [cartFavorite, setCartFavorite] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    axios.get('http://localhost:3001/sneakers')
-      .then(response => setDatabase(response.data))
+    async function fetchData() {
+      const cartResponse = await axios.get('http://localhost:3001/cart')
+      const favoriteResponse = await axios.get('http://localhost:3001/favorite')
+      const databaseResponse = await axios.get('http://localhost:3001/sneakers') 
 
-    axios.get('http://localhost:3001/cart')
-      .then(response => setCart(response.data))
-      
-    axios.get('http://localhost:3001/favorite')
-      .then(response => setCartFavorite(response.data))  
-
+      setIsLoading(false)
+      setCart(cartResponse.data)
+      setCartFavorite(favoriteResponse.data)
+      setDatabase(databaseResponse.data)
+    }
+    
+    fetchData()
   }, [])
 
   const onAddToCart = (obj) => {
-    axios.post('http://localhost:3001/cart', obj)
-    setCart(prev => [...prev, obj])
+    try {
+      if (cart.find((objCart) => objCart.id === obj.id)) {
+        axios.delete(`http://localhost:3001/cart/${obj.id}`)
+        setCart(prev => prev.filter(cart => cart.id !== obj.id))
+      } else {
+        axios.post('http://localhost:3001/cart', obj)
+        setCart(prev => [...prev, obj])
+      }
+    } catch (e) {
+      alert('Не удалось добавить товар в корзину', e)
+    }
   }
  
   const onAddToFavorite = async (obj) => {
@@ -60,7 +73,7 @@ function App() {
       <Header onClickOpen={() => setDrawerOpen(true)}/>
 			{ drawerOpen && <Drawer cart={cart} onRemove={onRemoveCart} onClickClose={() => setDrawerOpen(false)} /> }
       <Routes>
-        <Route path="/" element={<Main onAddToFavorite={onAddToFavorite} database={database} searchCart={searchCart} onAddToCart={onAddToCart} onChangeInputSearch={onChangeInputSearch} />} />
+        <Route path="/" element={<Main isLoading={isLoading} onAddToFavorite={onAddToFavorite} database={database} searchCart={searchCart} onAddToCart={onAddToCart} onChangeInputSearch={onChangeInputSearch} />} />
         <Route path="/favorite" element={<Favorite cartFavorite={cartFavorite} />} />
       </Routes>
     </div>
