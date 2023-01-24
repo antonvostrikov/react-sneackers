@@ -5,8 +5,11 @@ import Card from "../../components/Card/Card";
 import styles from './Favorite.module.scss'
 
 import { Link } from "react-router-dom";
+import { AppContext } from "../../context";
 
-export default function Favorite({cartFavorite}) {
+export default function Favorite() {
+	const { cartFavorite, onAddToFavorite } = React.useContext(AppContext)
+
 	return (
 		<div className="Favorite">
 			<div className="content p-40">
@@ -20,8 +23,9 @@ export default function Favorite({cartFavorite}) {
 								<Card 
 									name={cart.name} 
 									price={cart.price} 
-									img={cart.img}
+									image={cart.image}
 									id={cart.id} 
+									onAddToFavorite={onAddToFavorite}
 								/>
 							)) }
 						</>

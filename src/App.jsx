@@ -5,6 +5,7 @@ import axios from "axios";
 
 import Favorite from "./pages/Favorite/Favorite";
 import Main from "./pages/Main/Main"
+import { AppContext } from './context';
 
 import Header from './components/Header/Header';
 import Drawer from "./components/Drawer/Drawer";
@@ -50,6 +51,7 @@ function App() {
     try {
       if (cartFavorite.find((objFav) => objFav.id === obj.id)) {
         axios.delete(`http://localhost:3001/favorite/${obj.id}`)
+        setCartFavorite(prev => prev.filter(cart => cart.id !== obj.id))
       } else {
         const { data } = await axios.post('http://localhost:3001/favorite', obj)
         setCartFavorite(prev => [...prev, data])
@@ -68,15 +70,38 @@ function App() {
     setSearchCart(event.target.value)
   }
 
+  const itemInCart = (id) => {
+    return cart.some(cart => cart.id === id)
+  } 
+
+  const itemInFavorite = (id) => {
+    return cartFavorite.some(cart => cart.id === id)
+  }
+
   return (
-    <div className="wrapper clear">
-      <Header onClickOpen={() => setDrawerOpen(true)}/>
-			{ drawerOpen && <Drawer cart={cart} onRemove={onRemoveCart} onClickClose={() => setDrawerOpen(false)} /> }
-      <Routes>
-        <Route path="/" element={<Main isLoading={isLoading} onAddToFavorite={onAddToFavorite} database={database} searchCart={searchCart} onAddToCart={onAddToCart} onChangeInputSearch={onChangeInputSearch} />} />
-        <Route path="/favorite" element={<Favorite cartFavorite={cartFavorite} />} />
-      </Routes>
-    </div>
+    <AppContext.Provider value={{ database, cart, searchCart, drawerOpen, cartFavorite, isLoading, itemInCart, itemInFavorite }}>
+      <div className="wrapper clear">
+        <Header onClickOpen={() => setDrawerOpen(true)}/>
+        { drawerOpen && <Drawer 
+          cart={cart} 
+          onRemove={onRemoveCart} 
+          onClickClose={() => setDrawerOpen(false)} 
+          /> 
+        }
+        <Routes>
+          <Route path="/" element={<Main 
+            isLoading={isLoading} 
+            onAddToFavorite={onAddToFavorite} 
+            database={database} 
+            searchCart={searchCart} 
+            onAddToCart={onAddToCart} 
+            onChangeInputSearch={onChangeInputSearch} 
+            />} 
+          />
+          <Route path="/favorite" element={<Favorite />} />
+        </Routes>
+      </div>
+    </AppContext.Provider>
   );
 }
 

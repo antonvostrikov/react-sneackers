@@ -16,7 +16,7 @@ export default function Drawer({onClickClose, onRemove, cart}) {
               { cart.map(itemCart => {
                 return (
                   <div className={`${styles.cartItem} d-flex align-center mb-20`}>
-                    <div style={{ backgroundImage: `url(${itemCart.img})` }} className={styles.cartItemImage}></div>
+                    <div style={{ backgroundImage: `url(${itemCart.image})` }} className={styles.cartItemImage}></div>
                       <div className="mr-20 flex">
                         <p className="mb-5">{itemCart.name}</p>
                         <b>{itemCart.price} руб.</b>

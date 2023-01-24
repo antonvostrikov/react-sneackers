@@ -4,6 +4,8 @@ import styles from './Card.module.scss'
 
 import ContentLoader from "react-content-loader";
 
+import { AppContext } from "../../context";
+
 export default function Card({ loading=false, onAddToFavorite, id, name, price, image, addToCart }) {
 	const [added, setAdded] = useState(false)
 	const [favorite, setFavorite] = useState(false)
@@ -17,6 +19,8 @@ export default function Card({ loading=false, onAddToFavorite, id, name, price, 
 		onAddToFavorite({id, name, price, image})
 		setFavorite(!favorite)
 	}
+
+	const { itemInCart, itemInFavorite } = React.useContext(AppContext)
 
 	return (
 		<div className={styles.card}>
@@ -35,7 +39,7 @@ export default function Card({ loading=false, onAddToFavorite, id, name, price, 
 				</ContentLoader> : 
 				<>
 				<div className={styles.favorite}>
-					<img onClick={onClickButtonFavorite} src={favorite ? '/img/heart-unabled.svg' : '/img/heart-disabled.svg'} alt="disabled" />
+					<img onClick={onClickButtonFavorite} src={itemInFavorite(id) ? '/img/heart-unabled.svg' : '/img/heart-disabled.svg'} alt="disabled" />
 				</div>
 				<img width={133} height={112} src={image} alt="" />
 				<h5>{name}</h5>
@@ -45,7 +49,7 @@ export default function Card({ loading=false, onAddToFavorite, id, name, price, 
 						<b>{price} руб.</b>
 					</div>
 					<button onClick={onClickButtonAdd} className={styles.button}>
-						<img width={11} height={11} src={added ? '/img/btn-add.svg' : '/img/plus.svg'} alt="" />
+						<img width={11} height={11} src={itemInCart(id) ? '/img/btn-add.svg' : '/img/plus.svg'} alt="" />
 					</button>
 				</div>
 				</>
