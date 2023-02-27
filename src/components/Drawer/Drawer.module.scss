@@ -129,18 +129,3 @@
     }
   }
 }
-
-.cartEmpty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 200px 0 0 0;
-  h3 {
-    font-size: 22px;
-  }
-  p {
-    line-height: 24px;
-    text-align: center;
-    padding: 0 35px;
-  }
-}

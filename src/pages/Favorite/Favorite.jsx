@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../../context";
 
 export default function Favorite() {
-	const { cartFavorite, onAddToFavorite } = React.useContext(AppContext)
+	const { cartFavorite, onAddToFavorite, onAddToCart } = React.useContext(AppContext)
 
 	return (
 		<div className="Favorite">
@@ -26,6 +26,7 @@ export default function Favorite() {
 									image={cart.image}
 									id={cart.id} 
 									onAddToFavorite={onAddToFavorite}
+									addToCart={onAddToCart}
 								/>
 							)) }
 						</>

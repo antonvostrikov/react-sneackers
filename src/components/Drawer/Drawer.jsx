@@ -1,8 +1,32 @@
 import React from "react";
+import { useState } from "react";
+import Info from "../Info/Info";
 
 import styles from './Drawer.module.scss'
 
-export default function Drawer({onClickClose, onRemove, cart}) {
+import axios from "axios";
+
+import { AppContext } from "../../context";
+
+export default function Drawer({ onClickClose, onRemove }) {
+  const [orderComplete, setOrderComplete] = useState(false)
+  const [orderId, setOrderId] = useState(null)
+  const { cart, setCart } = React.useContext(AppContext)
+
+  const orderCompleteClick = async () => {
+    try {
+      const { data } = await axios.post('http://localhost:3001/orders', {items: cart})
+      setOrderId(data.id)
+      console.log(data)
+      setOrderComplete(true)
+      setCart([])
+      // Написать костыль с удалением ВСЕХ элементов
+    } catch (e) {
+      alert('Не удалось оформить заказ :(')
+      console.log(e)
+    }
+  } 
+
   return (
     <div className={styles.overlay}>
       <div className={styles.drawer}>
@@ -40,17 +64,17 @@ export default function Drawer({onClickClose, onRemove, cart}) {
                   <b>1074 руб.</b>
                 </li>
               </ul>
-              <button className={styles.greenButton}>Оформить заказ <img src="/img/arrow-right.svg" alt="" /></button>
+              <button className={styles.greenButton} onClick={orderCompleteClick}>Оформить заказ <img src="/img/arrow-right.svg" alt="" /></button>
             </div> 
           </>
         ) : (
           <>
-            <div className={styles.cartEmpty}>
-              <img src="/img/cart.svg" alt="" />
-              <h3>Корзина пустая</h3>
-              <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ</p>
-              <button onClick={onClickClose} className={`${styles.greenButton} ${styles.greenButtonEmptyCart}`}>Вернуться назад</button>
-            </div>
+            <Info 
+              onClickClose={onClickClose} 
+              header={orderComplete ? 'Заказ оформлен' : 'Коризина пустая'} 
+              description={orderComplete ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ'} 
+              image={orderComplete ? '/img/order.svg' : '/img/cart.svg'}
+            /> 
           </>
         )}
       </div>

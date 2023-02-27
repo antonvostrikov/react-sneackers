@@ -47,16 +47,58 @@
   ],
   "favorite": [
     {
-      "id": 2,
-      "name": "Мужские Кроссовки New Balance 974",
-      "price": 18990,
-      "image": "/img/sneackers/2.jpg"
+      "id": 3,
+      "name": "Мужские Кроссовки New Balance 2002r",
+      "price": 29990,
+      "image": "/img/sneackers/3.jpg"
     },
     {
-      "id": 5,
+      "id": 1,
       "name": "Мужские Кроссовки Nike Blazer Mid Suede",
       "price": 12999,
-      "image": "/img/sneackers/3.jpg"
+      "image": "/img/sneackers/1.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Мужские Кроссовки Adidas Special Edition",
+      "price": 17990,
+      "image": "/img/sneackers/4.jpg"
+    }
+  ],
+  "orders": [
+    {
+      "items": [
+        {
+          "id": 2,
+          "name": "Мужские Кроссовки New Balance 974",
+          "price": 18990,
+          "image": "/img/sneackers/2.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Мужские Кроссовки New Balance 2002r",
+          "price": 29990,
+          "image": "/img/sneackers/3.jpg"
+        }
+      ],
+      "id": 1
+    },
+    {
+      "items": [
+        {
+          "id": 2,
+          "name": "Мужские Кроссовки New Balance 974",
+          "price": 18990,
+          "image": "/img/sneackers/2.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Мужские Кроссовки New Balance 2002r",
+          "price": 29990,
+          "image": "/img/sneackers/3.jpg"
+        }
+      ],
+      "id": 2
     }
   ]
 }
