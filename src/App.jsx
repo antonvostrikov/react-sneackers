@@ -9,6 +9,7 @@ import { AppContext } from './context';
 
 import Header from './components/Header/Header';
 import Drawer from "./components/Drawer/Drawer";
+import Orders from './components/Orders/Orders';
 
 function App() {
   const [database, setDatabase] = useState([])
@@ -20,14 +21,20 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const cartResponse = await axios.get('http://localhost:3001/cart')
-      const favoriteResponse = await axios.get('http://localhost:3001/favorite')
-      const databaseResponse = await axios.get('http://localhost:3001/sneakers') 
-
-      setIsLoading(false)
-      setCart(cartResponse.data)
-      setCartFavorite(favoriteResponse.data)
-      setDatabase(databaseResponse.data)
+      try {
+        const [cartResponse, favoriteResponse, databaseResponse] = await Promise.all([
+          axios.get('http://localhost:3001/cart'), 
+          axios.get('http://localhost:3001/favorite'), 
+          axios.get('http://localhost:3001/sneakers')
+        ])
+  
+        setIsLoading(false)
+        setCart(cartResponse.data)
+        setCartFavorite(favoriteResponse.data)
+        setDatabase(databaseResponse.data)
+      } catch (e) {
+        alert('Ошибка')
+      }
     }
     
     fetchData()
@@ -57,7 +64,7 @@ function App() {
         setCartFavorite(prev => [...prev, data])
       }
     } catch (e) {
-      console.log('Произошла ошибка', e)
+      alert('Не удалось добавить товар в избранное!')
     }
   } 
 
@@ -79,7 +86,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ database, setCart , cart, searchCart, drawerOpen, cartFavorite, isLoading, itemInCart, itemInFavorite, onAddToFavorite, onAddToCart }}>
+    <AppContext.Provider value={{ database, setCart , cart, searchCart, cartFavorite, isLoading, itemInCart, itemInFavorite, onAddToFavorite, onAddToCart }}>
       <div className="wrapper clear">
         <Header onClickOpen={() => setDrawerOpen(true)}/>
         { drawerOpen && <Drawer 
@@ -99,6 +106,7 @@ function App() {
             />} 
           />
           <Route path="/favorite" element={<Favorite />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </div>
     </AppContext.Provider>

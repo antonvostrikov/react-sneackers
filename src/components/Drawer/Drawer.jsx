@@ -8,19 +8,20 @@ import axios from "axios";
 
 import { AppContext } from "../../context";
 
+import { useTotal } from "../../hooks/useTotal";
+
 export default function Drawer({ onClickClose, onRemove }) {
   const [orderComplete, setOrderComplete] = useState(false)
   const [orderId, setOrderId] = useState(null)
   const { cart, setCart } = React.useContext(AppContext)
+  const { total, tax } = useTotal()
 
   const orderCompleteClick = async () => {
     try {
       const { data } = await axios.post('http://localhost:3001/orders', {items: cart})
       setOrderId(data.id)
-      console.log(data)
       setOrderComplete(true)
       setCart([])
-      // Написать костыль с удалением ВСЕХ элементов
     } catch (e) {
       alert('Не удалось оформить заказ :(')
       console.log(e)
@@ -56,12 +57,12 @@ export default function Drawer({ onClickClose, onRemove }) {
                 <li className="d-flex">
                   <span>Итого:</span>
                   <div></div>
-                  <b>21 498 руб.</b>
+                  <b>{total} руб.</b>
                 </li>
                 <li className="d-flex">
                   <span>Налог 5%:</span>
                   <div></div>
-                  <b>1074 руб.</b>
+                  <b>{tax} руб.</b>
                 </li>
               </ul>
               <button className={styles.greenButton} onClick={orderCompleteClick}>Оформить заказ <img src="/img/arrow-right.svg" alt="" /></button>

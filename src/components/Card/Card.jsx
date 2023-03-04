@@ -39,7 +39,7 @@ export default function Card({ loading=false, onAddToFavorite, id, name, price, 
 				</ContentLoader> : 
 				<>
 				<div className={styles.favorite}>
-					<img onClick={onClickButtonFavorite} src={itemInFavorite(id) ? '/img/heart-unabled.svg' : '/img/heart-disabled.svg'} alt="disabled" />
+					{onAddToFavorite && <img onClick={onClickButtonFavorite} src={itemInFavorite(id) ? '/img/heart-unabled.svg' : '/img/heart-disabled.svg'} alt="disabled" />}
 				</div>
 				<img width={133} height={112} src={image} alt="" />
 				<h5>{name}</h5>
@@ -49,7 +49,7 @@ export default function Card({ loading=false, onAddToFavorite, id, name, price, 
 						<b>{price} руб.</b>
 					</div>
 					<button onClick={onClickButtonAdd} className={styles.button}>
-						<img width={11} height={11} src={itemInCart(id) ? '/img/btn-add.svg' : '/img/plus.svg'} alt="" />
+						{addToCart && <img width={11} height={11} src={itemInCart(id) ? '/img/btn-add.svg' : '/img/plus.svg'} alt="" />}
 					</button>
 				</div>
 				</>
